@@ -45,7 +45,6 @@ export default async function Home() {
             <p>Deploy to ???</p>
           </a>
         </div>
-      </div>
     </>
   );
 };
