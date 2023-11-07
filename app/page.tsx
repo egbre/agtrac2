@@ -21,7 +21,7 @@ export default async function Home() {
           style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}
         >
           <Balancer>
-            Yada Yada Yada
+            Features to come
           </Balancer>
         </p>
       </div>
