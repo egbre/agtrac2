@@ -57,11 +57,6 @@ export default async function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Github />
-            <p>
-              <span className="hidden sm:inline-block">Star on</span> GitHub{" "}
-              <span className="font-semibold">{nFormatter(stars)}</span>
-            </p>
           </a>
         </div>
       </div>
