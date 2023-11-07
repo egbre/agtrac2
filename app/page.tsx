@@ -6,7 +6,6 @@ import WebVitals from "@/components/home/web-vitals";
 import ComponentGrid from "@/components/home/component-grid";
 import Image from "next/image";
 import { nFormatter } from "@/lib/utils";
-
 export default async function Home() {
   return (
     <>
@@ -25,7 +24,7 @@ export default async function Home() {
             Yada Yada Yada
           </Balancer>
         </p>
-              <div
+        <div
           className="mx-auto mt-6 flex animate-fade-up items-center justify-center space-x-5 opacity-0"
           style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}
         >
@@ -50,6 +49,8 @@ export default async function Home() {
               />
             </svg>
             <p>Deploy to ???</p>
+          </a>
+          </a>
         </div>
       </div>
       <div className="my-10 grid w-full max-w-screen-xl animate-fade-up grid-cols-1 gap-5 px-5 md:grid-cols-3 xl:px-0">
@@ -72,7 +73,6 @@ export default async function Home() {
     </>
   );
 }
-
 const features = [
   {
     title: "Beautiful, reusable components",
