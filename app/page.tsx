@@ -6,7 +6,21 @@ import WebVitals from "@/components/home/web-vitals";
 import ComponentGrid from "@/components/home/component-grid";
 import Image from "next/image";
 import { nFormatter } from "@/lib/utils";
-export default async function Home() {
+import React from 'react';
+
+export default function Home() {
+  // Hardcoded data for the dashboard
+  const dashboardData = {
+    totalVisitors: 12000,
+    activeUsers: 450,
+    salesData: [
+      { month: 'January', sales: 200 },
+      { month: 'February', sales: 300 },
+      // ... more data
+    ],
+    // ... other data fields
+  };
+
   return (
     <>
       <div className="z-10 w-full max-w-xl px-5 xl:px-0">
@@ -25,6 +39,27 @@ export default async function Home() {
           </Balancer>
         </p>
       </div>
+      <div>
+        <DashboardComponent data={dashboardData} />
+      </div>
     </>
   );
-};
+}
+
+function DashboardComponent({ data }) {
+  // Render your dashboard using the data
+  return (
+    <div>
+      <h2>Dashboard</h2>
+      <p>Total Visitors: {data.totalVisitors}</p>
+      <p>Active Users: {data.activeUsers}</p>
+      <h3>Sales Data</h3>
+      <ul>
+        {data.salesData.map((item, index) => (
+          <li key={index}>{item.month}: {item.sales}</li>
+        ))}
+      </ul>
+      {/* Add more data displays as needed */}
+    </div>
+  );
+}
