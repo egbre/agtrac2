@@ -8,9 +8,16 @@ import Image from "next/image";
 import { nFormatter } from "@/lib/utils";
 import React from 'react';
 
+// Define an interface for your dashboard data
+interface DashboardData {
+  totalVisitors: number;
+  activeUsers: number;
+  salesData: { month: string; sales: number }[];
+}
+
 export default function Home() {
   // Hardcoded data for the dashboard
-  const dashboardData = {
+  const dashboardData: DashboardData = {
     totalVisitors: 12000,
     activeUsers: 450,
     salesData: [
@@ -46,7 +53,7 @@ export default function Home() {
   );
 }
 
-function DashboardComponent({ data }) {
+function DashboardComponent({ data }: { data: DashboardData }) {
   // Render your dashboard using the data
   return (
     <div>
