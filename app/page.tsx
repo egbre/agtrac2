@@ -9,7 +9,7 @@ import { nFormatter } from "@/lib/utils";
 import React from 'react';
 
 
-xport default function Home() {
+export default function Home() {
   // Static dashboard data
   const [dashboardData, setDashboardData] = useState({
     totalVisitors: 12000,
