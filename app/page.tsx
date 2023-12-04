@@ -8,16 +8,10 @@ import Image from "next/image";
 import { nFormatter } from "@/lib/utils";
 import React from 'react';
 
-// Define an interface for your dashboard data
-interface DashboardData {
-  totalVisitors: number;
-  activeUsers: number;
-  salesData: { month: string; sales: number }[];
-}
 
-export default function Home() {
-  // Hardcoded data for the dashboard
-  const dashboardData: DashboardData = {
+xport default function Home() {
+  // Static dashboard data
+  const [dashboardData, setDashboardData] = useState({
     totalVisitors: 12000,
     activeUsers: 450,
     salesData: [
@@ -25,48 +19,70 @@ export default function Home() {
       { month: 'February', sales: 300 },
       // ... more data
     ],
-    // ... other data fields
-  };
+    usdaData: [], // Placeholder for dynamic data
+  });
+
+  // Function to fetch USDA data
+  async function fetchUsdaData() {
+    const url = "https://cs361-microservice-405022.uc.r.appspot.com/survey";
+    const payload = {
+      year: [2015, 2016, 2017],
+      report: "Operator Household Income",
+      state: "Georgia",
+      farmtype: "Farm Operator Households",
+      category_value: "All"
+    };
+    const headers = { 'Content-Type': 'application/json' };
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        return await response.json();
+      } else {
+        throw new Error(`Failed to retrieve data: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      return null;
+    }
+  }
+
+  // Function to process USDA data
+  function processData(rawData) {
+    let processedData = [];
+    rawData.data.forEach(item => {
+      if (item.variable_name === 'Estimated Adjusted Gross Income (AGI)') {
+        processedData.push({ year: item.year, estimate: item.estimate || 0 });
+      }
+    });
+    return processedData;
+  }
+
+  useEffect(() => {
+    fetchUsdaData().then(data => {
+      if (data && typeof data !== 'string') {
+        const processedData = processData(data);
+        setDashboardData(prevData => ({
+          ...prevData,
+          usdaData: processedData,
+        }));
+      }
+    });
+  }, []);
 
   return (
     <>
       <div className="z-10 w-full max-w-xl px-5 xl:px-0">
-        <h1
-          className="animate-fade-up bg-gradient-to-br from-black to-stone-500 bg-clip-text text-center font-display text-4xl font-bold tracking-[-0.02em] text-transparent opacity-0 drop-shadow-sm md:text-7xl md:leading-[5rem]"
-          style={{ animationDelay: "0.15s", animationFillMode: "forwards" }}
-        >
-          <Balancer>CS361 Project</Balancer>
-        </h1>
-        <p
-          className="mt-6 animate-fade-up text-center text-gray-500 opacity-0 md:text-xl"
-          style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}
-        >
-          <Balancer>
-            Features to come
-          </Balancer>
-        </p>
+        {/* Add your JSX here for the rest of the page */}
       </div>
       <div>
         <DashboardComponent data={dashboardData} />
       </div>
     </>
-  );
-}
-
-function DashboardComponent({ data }: { data: DashboardData }) {
-  // Render your dashboard using the data
-  return (
-    <div>
-      <h2>Dashboard</h2>
-      <p>Total Visitors: {data.totalVisitors}</p>
-      <p>Active Users: {data.activeUsers}</p>
-      <h3>Sales Data</h3>
-      <ul>
-        {data.salesData.map((item, index) => (
-          <li key={index}>{item.month}: {item.sales}</li>
-        ))}
-      </ul>
-      {/* Add more data displays as needed */}
-    </div>
   );
 }
