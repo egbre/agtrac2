@@ -7,6 +7,7 @@ import ComponentGrid from "@/components/home/component-grid";
 import Image from "next/image";
 import { nFormatter } from "@/lib/utils";
 import React from 'react';
+import DashboardComponent from './DashboardComponent';
 
 
 export default function Home() {
